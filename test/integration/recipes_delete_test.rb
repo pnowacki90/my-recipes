@@ -5,7 +5,8 @@ class RecipesDeleteTest < ActionDispatch::IntegrationTest
   #   assert true
   # end
   def setup
-    @user = Chef.create!(chefname: "piotrek", email: "wpssss@wp.pl")
+    @user = Chef.create!(chefname: "piotrek", email: "wpssss@wp.pl",
+                        password: "password", password_confirmation: "password")
     @recipe = Recipe.create(name: "veggie burger", description: "Dziwny burger", chef: @user)
   end
   

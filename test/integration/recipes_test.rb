@@ -6,7 +6,8 @@ class RecipesTest < ActionDispatch::IntegrationTest
   # end
   
   def setup
-    @user = Chef.create!(chefname: "piotrek", email: "wpssss@wp.pl")
+    @user = Chef.create!(chefname: "piotrek", email: "wpssss@wp.pl",
+                        password: "password", password_confirmation: "password")
     @recipe = Recipe.create(name: "veggie burger", description: "Dziwny burger", chef: @user)
     @recipe2 = @user.recipes.build(name: "pesto", description: "bazylia i parmezan")
     @recipe2.save
