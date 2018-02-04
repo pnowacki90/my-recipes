@@ -15,8 +15,10 @@
     </div>
   </div>
   <div class="recipe-actions">
-    <%= link_to "Edit", edit_recipe_path(@recipe), class: "btn btn-xs btn-warning" %>
-    <%= link_to 'Delete', recipe_path(@recipe), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
+    <% if logged_in? %>
+      <%= link_to "Edit", edit_recipe_path(@recipe), class: "btn btn-xs btn-warning" %>
+      <%= link_to 'Delete', recipe_path(@recipe), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
+    <% end %>
     <%= link_to "Back to index", recipes_path, class: "btn btn-xs btn-info" %>
   </div>
 </div>
