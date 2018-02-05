@@ -9,6 +9,8 @@ class ChefsListingTest < ActionDispatch::IntegrationTest
                         password: "password", password_confirmation: "password")
     @user2 = Chef.create!(chefname: "robert", email: "wpsssrs@wsp.pl",
                         password: "1password", password_confirmation: "1password")
+    @admin_user = Chef.create!(chefname: "robert", email: "wpsssfgsrs@wsp.pl",
+                        password: "1password", password_confirmation: "1password", admin: true)
   end
   
   test "should get chefs index" do
@@ -24,11 +26,11 @@ class ChefsListingTest < ActionDispatch::IntegrationTest
   end
   
   test "should delete chef" do
-    sign_in_as(@user2, "1password")  
+    sign_in_as(@admin_user, "1password")  
     get chefs_path
     assert_template "chefs/index"
     assert_difference 'Chef.count', -1 do
-      delete chef_path(@user2)
+      delete chef_path(@user)
     end
     assert_redirected_to chefs_path
     assert_not flash.empty?
