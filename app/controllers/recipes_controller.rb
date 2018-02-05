@@ -1,6 +1,8 @@
 class RecipesController < ApplicationController
   
   before_action :set_recipe, only: [:show, :update, :edit, :destroy]
+  before_action :require_user, except: [:show, :index]
+  before_action :require_same_user, only: [:edit, :update, :destroy]
   
   def index
     @recipes = Recipe.paginate(page: params[:page], per_page: 5)
@@ -26,10 +28,7 @@ class RecipesController < ApplicationController
   end
   
   def edit
-    if @recipe.chef != current_chef
-      flash[:danger] = "You are not allowed to edit recipes that don't belong to you!"
-      redirect_to recipe_path(@recipe)
-    end
+    
   end
   
   def update
@@ -42,10 +41,6 @@ class RecipesController < ApplicationController
   end
   
   def destroy
-    if @recipe.chef != current_chef
-      flash[:danger] = "You are not allowed to delete recipes that don't belong to you!"
-      redirect_to recipe_path(@recipe)
-    end
     set_recipe.destroy
     flash[:success] = "Recipe deleted!"
     redirect_to recipes_path
@@ -59,5 +54,12 @@ class RecipesController < ApplicationController
   
   def recipe_params
     params.require(:recipe).permit(:name, :description)
+  end
+  
+  def require_same_user
+    if @recipe.chef != current_chef
+      flash[:danger] = "You are allowed to delete and edit recipes that belong to you!"
+      redirect_to recipes_path
+    end
   end
 end
