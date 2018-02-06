@@ -5,7 +5,11 @@
     <%= gravatar_for @chef, size: 180 %>
   </div>
 </div>
-<h4 align="center"><%= @chef.chefname %>'s recipes</h4>
+<% if @chef.recipes.count != 0 %>
+  <h4 align="center"><%= @chef.chefname %>'s recipes</h4>
+  <% else %>
+  <h4 align="center">No recipes yet</h4>
+<% end %>
 <div align="center">
   <%= will_paginate @chef_recipes %>
 </div>
