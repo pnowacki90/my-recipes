@@ -5,7 +5,10 @@ Rails.application.routes.draw do
   get 'pages/about', to: 'pages#about'
   get '/signup', to: 'chefs#new'
 
-  resources :recipes
+  resources :recipes do
+    resources :comments, only: [:create]
+  end
+  
   resources :chefs, except: [:new]
   
   get '/login', to: 'sessions#new'
@@ -13,4 +16,5 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   
   resources :ingredients, except: [:destroy]
+  
 end
