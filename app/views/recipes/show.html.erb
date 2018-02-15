@@ -1,4 +1,5 @@
 <%= render 'shared/page_title', title: @recipe.name %>
+
 <div class="well col-md-8 col-md-offset-2">
   <h4 class="center description"><strong>Steps: </strong></h4>
   <hr />
@@ -23,6 +24,18 @@
       <%= link_to 'Delete', recipe_path(@recipe), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
     <% end %>
     <%= link_to "Back to index", recipes_path, class: "btn btn-xs btn-info" %>
+  </div>
+  <div class="pull-left">
+    <p class="center">
+      Average rating:
+    </p>
+    <div id="star"></div>
+    <% if logged_in? %>
+      <p class="center">
+        Your rating:
+      </p>
+      <div id="user_star"></div>
+    <% end %>
   </div>
 </div>
 
@@ -67,3 +80,23 @@
     </div>
   </div>
 <% end %>
+<script>
+  $('#star').raty({
+    readOnly: true,
+    score: <%= @recipe.average_rating %>,
+    path: '/assets'
+  });
+  <% if logged_in? %>
+    $('#user_star').raty({
+      score: <%= @rating.rate %>,
+      path: '/assets',
+      click: function(score, evt) {
+        $.ajax({
+          url: '/ratings/' + <%= @rating.id %>,
+          type: 'PATCH',
+          data: { score: score }
+        });
+      }
+    });
+  <% end %>
+</script>

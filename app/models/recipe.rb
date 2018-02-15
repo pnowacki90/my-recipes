@@ -7,4 +7,13 @@ class Recipe < ApplicationRecord
   has_many :recipe_ingredients
   has_many :ingredients, through: :recipe_ingredients
   has_many :comments, dependent: :destroy
+  has_many :ratings, dependent: :destroy
+  
+  def average_rating
+    if ratings.size==0
+      0
+    else
+      ratings.sum(:rate) / ratings.size
+    end
+  end
 end

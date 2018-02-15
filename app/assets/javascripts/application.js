@@ -14,7 +14,14 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require turbolinks
+//= require jquery.raty.js
 //= require_tree .
+
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+  }
+});
 
 function scrollToBottom() {
   if($('#messages').length > 0) {

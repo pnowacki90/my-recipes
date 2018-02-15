@@ -9,6 +9,12 @@ class RecipesController < ApplicationController
   end
   
   def show
+    if logged_in?
+      @rating = Rating.where(recipe_id: @recipe.id, chef_id: current_chef.id).first
+      unless @rating
+        @rating = Rating.create!(recipe_id: @recipe.id, chef_id: current_chef.id, rate: 0)
+      end
+    end
     @comment = Comment.new
     @comments = @recipe.comments.paginate(page: params[:page], per_page: 5)
   end
