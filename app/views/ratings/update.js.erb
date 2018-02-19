@@ -1,12 +1,12 @@
 $('#star').raty({
     readOnly: true,
     score: <%= @recipe.average_rating %>,
-    path: '/assets'
+    path: '/assets/ratyrate'
   });
 
   $('#user_star').raty({
     score: <%= @rating.rate %>,
-    path: '/assets',
+    path: '/assets/ratyrate',
     click: function(score, evt) {
       $.ajax({
         url: '/ratings/' + <%= @rating.id %>,
